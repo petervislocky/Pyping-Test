@@ -6,20 +6,30 @@ import renderer
 
 def main():
     term = Terminal()
-    mistakes = 0
-    print(''.join(REFERENCE_TEXT))
-    typed_text, backspace_pressed = input_handler.input_list(term) 
-    # print(typed_text) #debugging
-    for i, char in enumerate(typed_text):
-        if i >= len(REFERENCE_TEXT):
-            mistakes += 1
-            break
-        if char == REFERENCE_TEXT[i]:
-            continue
-        else:
-            mistakes += 1            
-    final_mistakes = mistakes + backspace_pressed
-    print(f'Completed with {final_mistakes} mistakes')
+    typed_text = []
+    backspace_count = 0
+
+    with term.cbreak(), term.hidden_cursor():
+        print(term.clear)
+        renderer.render_text(typed_text, REFERENCE_TEXT, term)
+
+        for key in input_handler.capture_typing(term):
+            if key is None:
+                print(term.move_down + 'Test canceled')
+                return
+            
+            if key.name == 'KEY_BACKSPACE':
+                backspace_count += 1
+                if typed_text:
+                    typed_text.pop()
+
+            elif key.name not in ('KEY_ESCAPE', 'KEY_ENTER'):
+                typed_text.append(str(key))
+
+            renderer.render_text(typed_text, REFERENCE_TEXT, term)
+            
+            if ''.join(typed_text) == ''.join(REFERENCE_TEXT):
+                break
 
 if __name__ == '__main__':
     main()

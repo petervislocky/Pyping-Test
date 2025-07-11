@@ -15,4 +15,5 @@ def render_text(typed_text, reference_text, term):
         else:
             text.append(char, style='dim')
 
-    print(term.home + term.clear + text)
+    print(term.home + term.clear, end='')
+    console.print(text)
