@@ -1,6 +1,7 @@
-import input_handler
 from reference_text import REFERENCE_TEXT
 from blessed import Terminal
+import input_handler
+import renderer
 
 
 def main():
