@@ -14,7 +14,7 @@ def main():
         renderer.render_text(typed_text, REFERENCE_TEXT, term)
 
         for key in input_handler.capture_typing(term):
-            if key is None:
+            if key is None: #if key is None then ESC was pressed
                 print(term.move_down + 'Test canceled')
                 return
             
@@ -22,9 +22,10 @@ def main():
                 backspace_count += 1
                 if typed_text:
                     typed_text.pop()
-
-            elif key.name not in ('KEY_ESCAPE', 'KEY_ENTER'):
-                typed_text.append(str(key))
+            
+            if len(typed_text) < len(REFERENCE_TEXT) and key.name != 'KEY_BACKSPACE':
+                if key.name not in ('KEY_ESCAPE', 'KEY_ENTER'):
+                    typed_text.append(str(key))
 
             renderer.render_text(typed_text, REFERENCE_TEXT, term)
             
