@@ -1,1 +1,3 @@
-REFERENCE_TEXT = ['h', 'e', 'l', 'l', 'o', '!', ' ', 'w', 'e', 'l', 'c', 'o', 'm', 'e']
+REFERENCE_TEXT = 'The quick brown fox jumps over the lazy dog and yo ass is a lazy dog too boy'
+reference_text = list(REFERENCE_TEXT)
+print(reference_text)

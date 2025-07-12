@@ -9,11 +9,11 @@ def render_text(typed_text, reference_text, term):
     for i, char in enumerate(reference_text):
         if i < len(typed_text):
             if typed_text[i] == char:
-                text.append(char, style='green')
+                text.append(char, style='bold green')
             else:
-                text.append(char, style='red')
+                text.append(char, style='bold red')
         else:
-            text.append(char, style='dim')
+            text.append(char, style='bold dim')
 
     print(term.home + term.clear, end='')
     console.print(text)
