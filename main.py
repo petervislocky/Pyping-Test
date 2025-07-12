@@ -41,7 +41,7 @@ def main():
     time_elapsed_sec = end_time - start_time
     time_elapsed_min = time_elapsed_sec / 60
 
-    print(f'{time_elapsed_sec} seconds')
+    print(f'{time_elapsed_sec:.3f} seconds')
 
 if __name__ == '__main__':
     main()
