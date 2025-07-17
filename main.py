@@ -3,6 +3,7 @@ from blessed import Terminal
 import input_handler
 import renderer
 import time
+import metrics
 
 
 def main():
@@ -17,6 +18,8 @@ def main():
         start_time = 0
 
         for key in input_handler.capture_typing(term):
+            # just noticed this block isn't printing, but the test still exits on esc
+            # TODO find out why and fix :)
             if key is None: #if key is None then ESC was pressed
                 print(term.move_down + 'Test canceled')
                 return
@@ -42,6 +45,7 @@ def main():
     time_elapsed_min = time_elapsed_sec / 60
 
     print(f'{time_elapsed_sec:.3f} seconds')
+    print(f'{metrics.wpm(len(reference_text), time_elapsed_min):.2f} WPM')
 
 if __name__ == '__main__':
     main()
