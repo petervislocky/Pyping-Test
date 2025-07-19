@@ -1,5 +1,7 @@
-from reference_text import ReferenceText
 from blessed import Terminal
+from rich.console import Console
+
+from reference_text import ReferenceText
 import input_handler
 import renderer
 import time
@@ -8,7 +10,9 @@ import metrics
 
 def main():
     term = Terminal()
+    console = Console()
     rf = ReferenceText() 
+
     typed_text = []
     backspace_count = 0
     start_time = 0
@@ -45,8 +49,9 @@ def main():
     time_elapsed_sec = end_time - start_time
     time_elapsed_min = time_elapsed_sec / 60
 
-    print(f'{time_elapsed_sec:.3f} seconds')
-    print(f'{metrics.wpm(len(reference_text), time_elapsed_min):.2f} WPM')
+    console.print(f'[bold green]Time:[/] {time_elapsed_sec:.2f} seconds')
+    console.print(f'[bold red]Speed:[/] {metrics.wpm(len(reference_text), time_elapsed_min):.2f} WPM')
+    console.print(f'[bold blue]Accuracy:[/] {metrics.mistakes_count(backspace_count, len(reference_text), len(typed_text)):.2f}%')
 
 if __name__ == '__main__':
     main()

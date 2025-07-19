@@ -17,7 +17,7 @@ class ReferenceText:
     'expression', 'motivation', 'civilization'
     ]
 
-    def __init__(self, word_count=40):
+    def __init__(self, word_count=30):
         self.word_count = word_count
         self.selected_words = self.gen_reference_text()
         self.selected_chars = list(self.selected_words)
