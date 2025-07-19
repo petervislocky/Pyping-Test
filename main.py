@@ -1,4 +1,4 @@
-from reference_text import reference_text
+from reference_text import ReferenceText
 from blessed import Terminal
 import input_handler
 import renderer
@@ -8,21 +8,21 @@ import metrics
 
 def main():
     term = Terminal()
+    rf = ReferenceText() 
     typed_text = []
     backspace_count = 0
+    start_time = 0
+    reference_text = rf.get_selected_chars()
 
     with term.cbreak(), term.hidden_cursor():
         print(term.clear)
         renderer.render_text(typed_text, reference_text, term)
         
-        start_time = 0
 
         for key in input_handler.capture_typing(term):
-            # just noticed this block isn't printing, but the test still exits on esc
-            # TODO find out why and fix :)
             if key is None: #if key is None then ESC was pressed
                 print(term.move_down + 'Test canceled')
-                return
+                return # Exits the entire main method
             
             if key.name == 'KEY_BACKSPACE':
                 backspace_count += 1
@@ -40,6 +40,7 @@ def main():
             
             if ''.join(typed_text) == ''.join(reference_text):
                 break
+
     end_time = time.time()
     time_elapsed_sec = end_time - start_time
     time_elapsed_min = time_elapsed_sec / 60

@@ -6,6 +6,6 @@ def capture_typing(term):
         while True:
             key = term.inkey()
             if key.name == 'KEY_ESCAPE':
-                return None
+                yield None # I'm yielding None because return stops an iterable object like this one so None doesn't get returned
             yield key
 
