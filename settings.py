@@ -8,7 +8,10 @@ def _get_config_file():
     system = platform.system()
 
     if system == 'Windows':
-        config_dir = Path(os.getenv('APPDATA')) / 'pypingtest'
+        app_data = os.getenv('APPDATA')
+        if not app_data:
+            raise EnvironmentError('APPDATA environment variable not found')
+        config_dir = Path(app_data) / 'pypingtest'
     elif system == 'Darwin': #MacOS
         config_dir = Path.home() / 'Library' / 'Application Support' / 'pypingtest'
     else: # Linux and other *nix
@@ -37,5 +40,4 @@ def write_settings(ref_text_length):
 def read_settings():
     if not CONFIG_FILE:
         create_default_settings()
-    with CONFIG_FILE.open('r') as file:
-        return json.load(file)
+    with CONFIG_FILE.open('r') as file: return json.load(file)

@@ -55,11 +55,10 @@ def main():
 
     console.print(f'[bold green]Time:[/] {time_elapsed_sec:.2f} seconds')
     console.print(
-        f'[bold red]Speed:[/]'
-        f'{metrics.wpm(len(reference_text), time_elapsed_min):.2f} WPM'
+        f'[bold red]Speed:[/] {metrics.wpm(len(reference_text), time_elapsed_min):.2f} WPM'
         )
     console.print(
-        f'[bold blue]Accuracy:[/]' 
+        f'[bold blue]Accuracy:[/] ' 
         f'{metrics.mistakes_count(backspace_count, len(reference_text), len(typed_text)):.2f}%'
         )
 
