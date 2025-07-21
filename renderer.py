@@ -1,24 +1,22 @@
-from rich.console import Console
 from rich.text import Text
 
-console = Console()
 
-def render_typing_test(typed_text, reference_text, term):
+def render_typing_test(typed_text, reference_text, term, console):
     text = Text()
     error_mode = False
 
     for i, char in enumerate(reference_text):
         if i < len(typed_text):
             if error_mode:
-                text.append(char, style='bold bright_red on pale_violet_red1')
+                text.append(char, style='bold red on pale_violet_red1')
             else:
                 if typed_text[i] == char:
                     text.append(char, style='bold bright_green')
                 else:
                     error_mode = True
-                    text.append(char, style='bold bright_red on pale_violet_red1')
+                    text.append(char, style='bold red on pale_violet_red1')
         else:
-            text.append(char, style='bold dim')
+            text.append(char, style='bold grey42')
 
     print(term.home + term.clear, end='')
     console.print(text)
@@ -33,13 +31,6 @@ def pause_menu(term):
 
             height, width = term.height, term.width
             box_top = height // 2 - 3
-            key = term.inkey()
-            if key.name == 'KEY_UP':
-                selected = (selected - 1) % len(menu_options)
-            elif key.name == 'KEY_DOWN':
-                selected = (selected + 1) % len(menu_options)
-            elif key.name == 'KEY_ENTER' or key == '\n':
-                return menu_options[selected]
             box_left = width // 2 - 10
 
             for y in range(box_top, box_top + 7):
@@ -58,4 +49,6 @@ def pause_menu(term):
                 selected = (selected + 1) % len(menu_options)
             elif key.name == 'KEY_ENTER' or key == '\n':
                 return menu_options[selected]
+                # This may not clear the pause menu after an option is
+                # picked, haven't tested yet
 

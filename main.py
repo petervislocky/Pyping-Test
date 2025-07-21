@@ -25,7 +25,7 @@ def main():
 
     with term.cbreak(), term.hidden_cursor():
         print(term.clear)
-        renderer.render_typing_test(typed_text, reference_text, term)
+        renderer.render_typing_test(typed_text, reference_text, term, console)
 
         for key in input_handler.capture_typing(term):
             if key is None: #if key is None then ESC was pressed
@@ -44,7 +44,7 @@ def main():
             if start_time == 0 and key.name not in ('KEY_BACKSPACE', 'KEY_ESCAPE', 'KEY_ENTER'):
                 start_time = time.time()
 
-            renderer.render_typing_test(typed_text, reference_text, term)
+            renderer.render_typing_test(typed_text, reference_text, term, console)
             
             if ''.join(typed_text) == ''.join(reference_text):
                 break
