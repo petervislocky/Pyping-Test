@@ -40,4 +40,5 @@ def write_settings(ref_text_length):
 def read_settings():
     if not CONFIG_FILE:
         create_default_settings()
-    with CONFIG_FILE.open('r') as file: return json.load(file)
+    with CONFIG_FILE.open('r') as file: 
+        return json.load(file)

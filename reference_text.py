@@ -38,6 +38,8 @@ class ReferenceText:
         return ' '.join(selected_words)
 
     def get_selected_chars(self):
-        """getter method for getting the reference text list that's been generated
+        """
+        getter method for getting the reference text list that's been 
+        generated
         """
         return self.selected_chars
