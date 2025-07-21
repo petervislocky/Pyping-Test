@@ -3,7 +3,7 @@ from rich.text import Text
 
 console = Console()
 
-def render_text(typed_text, reference_text, term):
+def render_typing_test(typed_text, reference_text, term):
     text = Text()
     error_mode = False
 
@@ -33,6 +33,13 @@ def pause_menu(term):
 
             height, width = term.height, term.width
             box_top = height // 2 - 3
+            key = term.inkey()
+            if key.name == 'KEY_UP':
+                selected = (selected - 1) % len(menu_options)
+            elif key.name == 'KEY_DOWN':
+                selected = (selected + 1) % len(menu_options)
+            elif key.name == 'KEY_ENTER' or key == '\n':
+                return menu_options[selected]
             box_left = width // 2 - 10
 
             for y in range(box_top, box_top + 7):
@@ -51,3 +58,4 @@ def pause_menu(term):
                 selected = (selected + 1) % len(menu_options)
             elif key.name == 'KEY_ENTER' or key == '\n':
                 return menu_options[selected]
+
