@@ -1,4 +1,5 @@
 import time
+import argparse
 
 from blessed import Terminal
 from rich.console import Console
@@ -10,18 +11,40 @@ import renderer
 import metrics
 
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--word-count', '-w',
+        type=int,
+        help='overrides word count for the current run'
+    )
+    parser.add_argument(
+        '--show-config',
+        action='store_true',
+        help='opens settings.json in text editor to edit it'
+    )
+    return parser.parse_args()
+
 def main():
     term = Terminal()
     console = Console()
+    
     settings.create_default_settings()
-    settings_json = settings.read_settings()
-    rf = ReferenceText(settings_json['word_count']) 
+    configuration = settings.read_settings()
+
+    args = parse_args()
+    if args.word_count:
+        configuration['word_count'] = args.word_count
+    if args.show_config:
+        settings.show_config_file()
+        return
+
+    rf = ReferenceText(configuration['word_count']) 
     reference_text = rf.get_selected_chars()
 
     typed_text = []
     backspace_count = 0
     start_time = 0
-    
 
     with term.cbreak(), term.hidden_cursor():
         print(term.clear)

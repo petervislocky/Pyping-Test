@@ -1,11 +1,13 @@
 from pathlib import Path
+import subprocess
 import json
 import os
 import platform
 
 
+system = platform.system()
+
 def _get_config_file():
-    system = platform.system()
 
     if system == 'Windows':
         app_data = os.getenv('APPDATA')
@@ -23,11 +25,12 @@ def _get_config_file():
 CONFIG_FILE = _get_config_file()
 
 def create_default_settings():
-    settings = {
-        "word_count": 30
-    }
-    with CONFIG_FILE.open('w') as file:
-        json.dump(settings, file, indent=4)
+    if not CONFIG_FILE.exists():
+        settings = {
+            "word_count": 30
+        }
+        with CONFIG_FILE.open('w') as file:
+            json.dump(settings, file, indent=4)
 
 
 def write_settings(ref_text_length):
@@ -42,3 +45,10 @@ def read_settings():
         create_default_settings()
     with CONFIG_FILE.open('r') as file: 
         return json.load(file)
+
+def show_config_file():
+    if system == 'Windows':
+        subprocess.run(['notepad', str(CONFIG_FILE)])
+    else:
+        editor = os.getenv('EDITOR', 'nano')
+        subprocess.run([editor, str(CONFIG_FILE)])
