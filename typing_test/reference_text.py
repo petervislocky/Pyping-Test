@@ -3,21 +3,27 @@ import random
 
 class ReferenceText:
 
-    words = [
-    'the', 'and', 'is', 'you', 'that', 'it', 'in', 'of', 'to', 'a', 'was', 'for', 'on',
-    'with', 'as', 'at', 'be', 'by', 'he', 'she', 'we', 'they', 'are', 'not', 'this', 'have',
-    'had', 'from', 'but', 'or', 'his', 'her', 'an', 'if', 'then', 'will', 'so', 'no', 'do', 'can',
-    'window', 'kitchen', 'summer', 'travel', 'happy', 'morning', 'garden', 'animal', 'people',
-    'number', 'father', 'mother', 'school', 'letter', 'friend', 'music', 'water', 'winter',
-    'future', 'always', 'never', 'simple', 'market', 'energy', 'problem', 'answer', 'picture',
-    'system', 'group', 'process', 'country', 'architecture', 'phenomenon', 'consideration', 
-    'hypothesis', 'conclusion', 'significant', 'literature', 'environment', 'consequence',
-    'opportunity', 'fundamental', 'development', 'psychology', 'communication', 'technology',
-    'strategy', 'analytical', 'proportion', 'generation', 'analysis', 'philosophy', 'perspective',
-    'expression', 'motivation', 'civilization'
-    ]
 
-    def __init__(self, word_count):
+    words = {
+        'easy': [
+            'the', 'and', 'is', 'you', 'that', 'it', 'in', 'of', 'to', 'a', 'was', 'for', 'apple',
+            'house', 'green', 'water', 'train', 'smile', 'light', 'music', 'on', 'table', 'happy',
+            'quick', 'dream', 'stone', 'laugh', 'chair', 'world', 'sleep', 'phone', 'clock', 'voice'
+        ],
+        'medium': [
+            'picture', 'thunder', 'journey', 'blanket', 'capture', 'forward', 'message', 'bicycle',
+            'puzzle', 'improve', 'careful', 'recycle', 'feather', 'airport', 'perfect', 'library',
+            'plastic', 'courage', 'holiday'
+        ],
+        'hard': [
+            'quarantine', 'silhouette', 'kaleidoscope', 'subconscious', 'reminiscent', 'hypocrisy',
+            'miscellaneous', 'picturesque', 'jeopardize', 'bureaucracy', 'acquiesce', 'iridescent',
+            'pseudonym', 'entrepreneur', 'reconnaissance', 'catastrophe', 'juxtaposition',
+            'conscientious', 'belligerent', 'dichotomy'
+        ]
+    }
+
+    def __init__(self, word_count, difficulty_setting):
         """
         Params: int of how many words to use for the reference text
 
@@ -25,16 +31,24 @@ class ReferenceText:
         of random words from the words list and stores it in an instance
         var to be retrieved by the getter
         """
-        self.word_count = word_count
+        self.word_count = word_count # remember to handle improper value
+        self.difficulty = []
+        self.get_difficulty_setting(difficulty_setting)
         self.selected_words = self.gen_reference_text()
         self.selected_chars = list(self.selected_words)
 
     def gen_reference_text(self):
         """
-        makes random choices from the words list 'word_count' times,
-        joins them into a string, and returns them
+        makes random choices from the words dictionary based on the
+        difficulty selected
         """
-        selected_words = random.choices(self.words, k=self.word_count)
+        selected_words = []
+
+        for _ in range(self.word_count):
+            diff_level = random.choice(self.difficulty)
+            word = random.choice(self.words[diff_level])
+            selected_words.append(word)
+
         return ' '.join(selected_words)
 
     def get_selected_chars(self):
@@ -43,3 +57,13 @@ class ReferenceText:
         generated
         """
         return self.selected_chars
+    
+    def get_difficulty_setting(self, difficulty_setting):
+        if difficulty_setting == 'easy':
+            self.difficulty.append('easy')
+        elif difficulty_setting == 'medium':
+            self.difficulty.extend(['easy', 'medium'])
+        elif difficulty_setting == 'hard':
+            self.difficulty.extend(['easy', 'medium', 'hard'])
+        else:
+            print('Error retrieving difficulty settings')

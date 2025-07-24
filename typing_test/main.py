@@ -19,6 +19,11 @@ def parse_args():
         help='overrides word count for the current run'
     )
     parser.add_argument(
+        '--difficulty', '-d',
+        choices=['easy', 'medium', 'hard'],
+        help='overrides difficulty for the current run'
+    )
+    parser.add_argument(
         '--show-config',
         action='store_true',
         help='opens settings.json in text editor to edit it'
@@ -29,7 +34,11 @@ def main():
     term = Terminal()
     console = Console()
     
+    # create_default_settings will only create a default JSON if one
+    # does not already exist
     settings.create_default_settings()
+    # configuration is the programs copy of the JSON once its read, so
+    # can be temporarily overwritten for the runtime of the program
     configuration = settings.read_settings()
 
     args = parse_args()
@@ -38,8 +47,10 @@ def main():
     if args.show_config:
         settings.show_config_file()
         return
+    if args.difficulty:
+        configuration['difficulty'] = args.difficulty
 
-    rf = ReferenceText(configuration['word_count']) 
+    rf = ReferenceText(configuration['word_count'], configuration['difficulty']) 
     reference_text = rf.get_selected_chars()
 
     typed_text = []

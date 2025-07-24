@@ -27,18 +27,22 @@ CONFIG_FILE = _get_config_file()
 def create_default_settings():
     if not CONFIG_FILE.exists():
         settings = {
-            "word_count": 30
+            "word_count": 30,
+            "difficulty": "medium"
         }
         with CONFIG_FILE.open('w') as file:
             json.dump(settings, file, indent=4)
 
 
-def write_settings(ref_text_length):
-    settings = {
-        "word_count": ref_text_length
-    }
-    with CONFIG_FILE.open('w') as file:
-        json.dump(settings, file, indent=4)
+# not using this for now, because user can either edit the settings json
+# manually, or override them temporarily through args.
+# def write_settings(ref_text_length, difficulty):
+#     settings = {
+#         "word_count": ref_text_length,
+#         "difficulty": difficulty
+#     }
+#     with CONFIG_FILE.open('w') as file:
+#         json.dump(settings, file, indent=4)
 
 def read_settings():
     if not CONFIG_FILE:
