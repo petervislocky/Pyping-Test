@@ -24,6 +24,8 @@ def _get_config_file():
 
 CONFIG_FILE = _get_config_file()
 
+# update this to actually check if the CONFIG_FILE is valid and includes
+# all required fields to avoid the program breaking from broken config
 def create_default_settings():
     if not CONFIG_FILE.exists():
         settings = {
@@ -36,6 +38,7 @@ def create_default_settings():
 
 # not using this for now, because user can either edit the settings json
 # manually, or override them temporarily through args.
+#
 # def write_settings(ref_text_length, difficulty):
 #     settings = {
 #         "word_count": ref_text_length,
