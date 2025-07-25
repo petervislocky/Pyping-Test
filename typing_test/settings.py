@@ -34,8 +34,6 @@ def create_default_settings():
             json.dump(settings, file, indent=4)
 
 def read_settings():
-    if not CONFIG_FILE:
-        create_default_settings()
     with CONFIG_FILE.open('r') as file: 
         return json.load(file)
 
