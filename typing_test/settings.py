@@ -24,8 +24,6 @@ def _get_config_file():
 
 CONFIG_FILE = _get_config_file()
 
-# update this to actually check if the CONFIG_FILE is valid and includes
-# all required fields to avoid the program breaking from broken config
 def create_default_settings():
     if not CONFIG_FILE.exists():
         settings = {
@@ -34,18 +32,6 @@ def create_default_settings():
         }
         with CONFIG_FILE.open('w') as file:
             json.dump(settings, file, indent=4)
-
-
-# not using this for now, because user can either edit the settings json
-# manually, or override them temporarily through args.
-#
-# def write_settings(ref_text_length, difficulty):
-#     settings = {
-#         "word_count": ref_text_length,
-#         "difficulty": difficulty
-#     }
-#     with CONFIG_FILE.open('w') as file:
-#         json.dump(settings, file, indent=4)
 
 def read_settings():
     if not CONFIG_FILE:
@@ -60,8 +46,28 @@ def show_config_file():
         editor = os.getenv('EDITOR', 'nano')
         subprocess.run([editor, str(CONFIG_FILE)])
 
-#TODO finish this validity check
 def check_settings_validity(settings: dict):
-    valid_settings = ['word_count', 'difficulty']
-    if all(key in settings for key in valid_settings):
+
+    class InvalidSettingsError(Exception):
+        """Raises an exception when there are invalid settings in the
+        config file"""
         pass
+    
+    def word_count_validity(word_count):
+        if not (5 <= word_count <= 300):
+            raise InvalidSettingsError(f'Config error: word_count length must be > 5 and > 300')
+
+    def difficulty_validity(difficulty):
+        if difficulty not in ('easy', 'medium', 'hard'):
+            raise InvalidSettingsError(
+                f'Config error: invalid difficulty setting {difficulty}, '
+                'options are easy, medium or hard'
+            )
+
+    valid_settings = ['word_count', 'difficulty']
+    for key in valid_settings:
+        if key not in settings:
+            raise InvalidSettingsError(f'Config error: required key {key} missing from config file')
+    
+    word_count_validity(settings['word_count'])
+    difficulty_validity(settings['difficulty'])

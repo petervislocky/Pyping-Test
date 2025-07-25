@@ -31,6 +31,13 @@ def parse_args():
     return parser.parse_args()
 
 def main():
+    # parsing args first to bypass potential config errors
+    args = parse_args()
+    # and handling show config before reading the config as well
+    if args.show_config:
+        settings.show_config_file()
+        return
+
     term = Terminal()
     console = Console()
     
@@ -40,13 +47,11 @@ def main():
     # configuration is the programs copy of the JSON once its read, so
     # can be temporarily overwritten for the runtime of the program
     configuration = settings.read_settings()
+    settings.check_settings_validity(configuration)
 
-    args = parse_args()
+    # handling remaining args
     if args.word_count:
         configuration['word_count'] = args.word_count
-    if args.show_config:
-        settings.show_config_file()
-        return
     if args.difficulty:
         configuration['difficulty'] = args.difficulty
 
