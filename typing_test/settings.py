@@ -59,3 +59,9 @@ def show_config_file():
     else:
         editor = os.getenv('EDITOR', 'nano')
         subprocess.run([editor, str(CONFIG_FILE)])
+
+#TODO finish this validity check
+def check_settings_validity(settings: dict):
+    valid_settings = ['word_count', 'difficulty']
+    if all(key in settings for key in valid_settings):
+        pass

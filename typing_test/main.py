@@ -68,12 +68,10 @@ def main():
             
             if key.name == 'KEY_BACKSPACE':
                 backspace_count += 1
-                if typed_text:
-                    typed_text.pop()
+                typed_text.pop()
             
-            if len(typed_text) < len(reference_text) and key.name != 'KEY_BACKSPACE':
-                if key.name not in ('KEY_ESCAPE', 'KEY_ENTER'):
-                    typed_text.append(str(key))
+            if len(typed_text) < len(reference_text) and key.name not in ('KEY_ESCAPE', 'KEY_ENTER', 'KEY_BACKSPACE'):
+                typed_text.append(str(key))
 
             if start_time == 0 and key.name not in ('KEY_BACKSPACE', 'KEY_ESCAPE', 'KEY_ENTER'):
                 start_time = time.time()

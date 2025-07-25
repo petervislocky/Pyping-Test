@@ -21,7 +21,7 @@ def render_typing_test(typed_text, reference_text, term, console):
     print(term.home + term.clear, end='')
     console.print(text)
 
-# Render a pause menu if with the method and list below
+# Render a pause menu, if needed, with the method and list below
 # menu_options = ['Resume', 'Options', 'Exit']
 #
 # def pause_menu(term):
