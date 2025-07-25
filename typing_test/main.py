@@ -20,7 +20,7 @@ def parse_args():
     )
     parser.add_argument(
         '--difficulty', '-d',
-        choices=['easy', 'medium', 'hard'],
+        choices=['easy', 'medium', 'hard', 'veryHard'],
         help='overrides difficulty for the current run'
     )
     parser.add_argument(

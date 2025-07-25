@@ -8,18 +8,33 @@ class ReferenceText:
         'easy': [
             'the', 'and', 'is', 'you', 'that', 'it', 'in', 'of', 'to', 'a', 'was', 'for', 'apple',
             'house', 'green', 'water', 'train', 'smile', 'light', 'music', 'on', 'table', 'happy',
-            'quick', 'dream', 'stone', 'laugh', 'chair', 'world', 'sleep', 'phone', 'clock', 'voice'
+            'quick', 'dream', 'stone', 'laugh', 'chair', 'world', 'sleep', 'phone', 'clock',
+            'voice', 'sun', 'blue', 'run', 'dog', 'cat', 'car', 'bird', 'milk', 'jump', 'hand',
+            'book', 'tree', 'play', 'ball', 'fish', 'baby', 'cup', 'star', 'fire', 'food'
         ],
         'medium': [
             'picture', 'thunder', 'journey', 'blanket', 'capture', 'forward', 'message', 'bicycle',
             'puzzle', 'improve', 'careful', 'recycle', 'feather', 'airport', 'perfect', 'library',
-            'plastic', 'courage', 'holiday'
+            'plastic', 'courage', 'holiday', 'canvas', 'bridge', 'gather', 'damage', 'handle',
+            'signal', 'shadow', 'rescue', 'yellow', 'danger', 'honest', 'castle', 'nature',
+            'rocket', 'animal', 'wander', 'harvest', 'luggage', 'passion', 'mirror'
         ],
         'hard': [
+            'calendar', 'diamond', 'elephant', 'factory', 'garage', 'history', 'internet',
+            'justice', 'kitchen', 'language', 'magnet', 'necktie', 'octopus', 'picture',
+            'question', 'rescue', 'science', 'traffic', 'vacuum', 'weather', 'balance', 'capture',
+            'density', 'freedom', 'journey', 'library', 'monitor', 'network', 'package', 'quality',
+            'recycle', 'storage', 'victory'
+            ],
+        'veryHard': [
             'quarantine', 'silhouette', 'kaleidoscope', 'subconscious', 'reminiscent', 'hypocrisy',
             'miscellaneous', 'picturesque', 'jeopardize', 'bureaucracy', 'acquiesce', 'iridescent',
             'pseudonym', 'entrepreneur', 'reconnaissance', 'catastrophe', 'juxtaposition',
-            'conscientious', 'belligerent', 'dichotomy'
+            'conscientious', 'belligerent', 'dichotomy', 'parliament', 'transcendent',
+            'phenomenon', 'benevolent', 'exacerbate', 'idiosyncrasy', 'metamorphosis',
+            'camaraderie', 'magnanimous', 'existential', 'unfathomable', 'anachronism', 'labyrinth'
+            'circumstances', 'inconspicuous', 'malfeasance', 'disingenuous', 'egregious',
+            'surreptitious', 'vindicated'
         ]
     }
 
@@ -59,11 +74,16 @@ class ReferenceText:
         return self.selected_chars
     
     def get_difficulty_setting(self, difficulty_setting):
-        if difficulty_setting == 'easy':
-            self.difficulty.append('easy')
-        elif difficulty_setting == 'medium':
-            self.difficulty.extend(['easy', 'medium'])
-        elif difficulty_setting == 'hard':
-            self.difficulty.extend(['easy', 'medium', 'hard'])
-        else:
-            print('Error retrieving difficulty settings')
+        match difficulty_setting:
+            case 'easy':
+                self.difficulty.append('easy')
+            case 'medium':
+                self.difficulty.extend(['easy', 'medium'])
+            case 'hard':
+                self.difficulty.extend(['easy', 'medium', 'hard'])
+            case 'veryHard':
+                self.difficulty.extend(['easy', 'medium', 'hard', 'veryHard'])
+            case _:
+                # using assert False here because this line should never execute unless something
+                # has gone very wrong, any malformed difficulty setting should be caught in main()
+                assert False, f'Unexpected difficulty setting, {difficulty_setting}'

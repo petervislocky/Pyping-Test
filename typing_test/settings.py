@@ -58,10 +58,10 @@ def check_settings_validity(settings: dict):
             raise InvalidSettingsError(f'Config error: word_count length must be > 5 and > 300')
 
     def difficulty_validity(difficulty):
-        if difficulty not in ('easy', 'medium', 'hard'):
+        if difficulty not in ('easy', 'medium', 'hard', 'veryHard'):
             raise InvalidSettingsError(
                 f'Config error: invalid difficulty setting {difficulty}, '
-                'options are easy, medium or hard'
+                'options are easy, medium, hard, or veryHard'
             )
 
     valid_settings = ['word_count', 'difficulty']
