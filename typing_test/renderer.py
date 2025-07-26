@@ -1,25 +1,38 @@
 from rich.text import Text
 
+text = Text()
+
 
 def render_typing_test(typed_text, reference_text, term, console):
-    text = Text()
     error_mode = False
 
     for i, char in enumerate(reference_text):
         if i < len(typed_text):
             if error_mode:
-                text.append(char, style='bold red on pale_violet_red1')
+                text.append(char, style="bold red on pale_violet_red1")
             else:
                 if typed_text[i] == char:
-                    text.append(char, style='bold bright_green')
+                    text.append(char, style="bold bright_green")
                 else:
                     error_mode = True
-                    text.append(char, style='bold red on pale_violet_red1')
+                    text.append(char, style="bold red on pale_violet_red1")
         else:
-            text.append(char, style='bold grey42')
+            text.append(char, style="bold grey42")
 
-    print(term.home + term.clear, end='')
+    print(term.home + term.clear, end="")
     console.print(text)
+
+
+def render_timed_test(typed_text, reference_text, term, console):
+    for i, char in enumerate(reference_text):
+        if i < len(typed_text):
+            if typed_text[i] == char:
+                text.append(char, style="bold bright_green")
+            else:
+                text.append(char, style="bold red on pale_violet_red1")
+        else:
+            text.append(char, style="bold grey42")
+
 
 # Render a pause menu, if needed, with the method and list below
 # menu_options = ['Resume', 'Options', 'Exit']
@@ -52,4 +65,3 @@ def render_typing_test(typed_text, reference_text, term, console):
 #                 return menu_options[selected]
 #                 # This may not clear the pause menu after an option is
 #                 # picked, haven't tested yet
-

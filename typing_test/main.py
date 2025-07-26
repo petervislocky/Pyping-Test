@@ -14,21 +14,21 @@ import metrics
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--word-count', '-w',
-        type=int,
-        help='overrides word count for the current run'
+        "--word-count", "-w", type=int, help="overrides word count for the current run"
     )
     parser.add_argument(
-        '--difficulty', '-d',
-        choices=['easy', 'medium', 'hard', 'veryHard'],
-        help='overrides difficulty for the current run'
+        "--difficulty",
+        "-d",
+        choices=["easy", "medium", "hard", "veryHard"],
+        help="overrides difficulty for the current run",
     )
     parser.add_argument(
-        '--show-config',
-        action='store_true',
-        help='opens settings.json in text editor to edit it'
+        "--show-config",
+        action="store_true",
+        help="opens settings.json in text editor to edit it",
     )
     return parser.parse_args()
+
 
 def main():
     # parsing args first to bypass potential config errors
@@ -40,7 +40,7 @@ def main():
 
     term = Terminal()
     console = Console()
-    
+
     # create_default_settings will only create a default JSON if one
     # does not already exist
     settings.create_default_settings()
@@ -51,11 +51,11 @@ def main():
 
     # handling remaining args
     if args.word_count:
-        configuration['word_count'] = args.word_count
+        configuration["word_count"] = args.word_count
     if args.difficulty:
-        configuration['difficulty'] = args.difficulty
+        configuration["difficulty"] = args.difficulty
 
-    rf = ReferenceText(configuration['word_count'], configuration['difficulty']) 
+    rf = ReferenceText(configuration["word_count"], configuration["difficulty"])
     reference_text = rf.get_selected_chars()
 
     typed_text = []
@@ -67,37 +67,46 @@ def main():
         renderer.render_typing_test(typed_text, reference_text, term, console)
 
         for key in input_handler.capture_typing(term):
-            if key is None: #if key is None then ESC was pressed
-                print(term.move_down + 'Test canceled')
-                return # Exits the entire main method
-            
-            if key.name == 'KEY_BACKSPACE':
+            if key is None:  # if key is None then ESC was pressed
+                print(term.move_down + "Test canceled")
+                return  # Exits the entire main method
+
+            if key.name == "KEY_BACKSPACE":
                 backspace_count += 1
                 typed_text.pop()
-            
-            if len(typed_text) < len(reference_text) and key.name not in ('KEY_ESCAPE', 'KEY_ENTER', 'KEY_BACKSPACE'):
+
+            if len(typed_text) < len(reference_text) and key.name not in (
+                "KEY_ESCAPE",
+                "KEY_ENTER",
+                "KEY_BACKSPACE",
+            ):
                 typed_text.append(str(key))
 
-            if start_time == 0 and key.name not in ('KEY_BACKSPACE', 'KEY_ESCAPE', 'KEY_ENTER'):
+            if start_time == 0 and key.name not in (
+                "KEY_BACKSPACE",
+                "KEY_ESCAPE",
+                "KEY_ENTER",
+            ):
                 start_time = time.time()
 
             renderer.render_typing_test(typed_text, reference_text, term, console)
-            
-            if ''.join(typed_text) == ''.join(reference_text):
+
+            if "".join(typed_text) == "".join(reference_text):
                 break
 
     end_time = time.time()
     time_elapsed_sec = end_time - start_time
     time_elapsed_min = time_elapsed_sec / 60
 
-    console.print(f'[bold green]Time:[/] {time_elapsed_sec:.2f} seconds')
+    console.print(f"[bold green]Time:[/] {time_elapsed_sec:.2f} seconds")
     console.print(
-        f'[bold red]Speed:[/] {metrics.wpm(len(reference_text), time_elapsed_min):.2f} WPM'
-        )
+        f"[bold red]Speed:[/] {metrics.wpm(len(reference_text), time_elapsed_min):.2f} WPM"
+    )
     console.print(
-        f'[bold blue]Accuracy:[/] ' 
-        f'{metrics.mistakes_count(backspace_count, len(reference_text), len(typed_text)):.2f}%'
-        )
+        f"[bold blue]Accuracy:[/] "
+        f"{metrics.mistakes_count(backspace_count, len(reference_text), len(typed_text)):.2f}%"
+    )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
