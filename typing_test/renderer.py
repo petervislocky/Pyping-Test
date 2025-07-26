@@ -1,9 +1,8 @@
 from rich.text import Text
 
-text = Text()
-
 
 def render_typing_test(typed_text, reference_text, term, console):
+    text = Text()
     error_mode = False
 
     for i, char in enumerate(reference_text):
@@ -24,6 +23,7 @@ def render_typing_test(typed_text, reference_text, term, console):
 
 
 def render_timed_test(typed_text, reference_text, term, console):
+    text = Text()
     for i, char in enumerate(reference_text):
         if i < len(typed_text):
             if typed_text[i] == char:
