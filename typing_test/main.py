@@ -12,6 +12,7 @@ import metrics
 
 
 def parse_args():
+    """parses command line arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--word-count", "-w", type=int, help="overrides word count for the current run"
