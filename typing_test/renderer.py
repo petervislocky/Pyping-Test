@@ -24,6 +24,7 @@ def render_typing_test(typed_text, reference_text, term, console):
 
 def render_timed_test(typed_text, reference_text, term, console):
     text = Text()
+
     for i, char in enumerate(reference_text):
         if i < len(typed_text):
             if typed_text[i] == char:
@@ -32,3 +33,6 @@ def render_timed_test(typed_text, reference_text, term, console):
                 text.append(char, style="bold red on pale_violet_red1")
         else:
             text.append(char, style="bold grey42")
+
+    print(term.home + term.clear, end="")
+    console.print(text)
