@@ -1,0 +1,38 @@
+{
+  "easy": [
+    "the", "and", "is", "you", "that", "it", "in", "of", "to", "a",
+    "was", "for", "apple", "house", "green", "water", "train", "smile",
+    "light", "music", "on", "table", "happy", "quick", "dream", "stone",
+    "laugh", "chair", "world", "sleep", "phone", "clock", "voice", "sun",
+    "blue", "run", "dog", "cat", "car", "bird", "milk", "jump", "hand",
+    "book", "tree", "play", "ball", "fish", "baby", "cup", "star", "fire",
+    "food"
+  ],
+  "medium": [
+    "picture", "thunder", "journey", "blanket", "capture", "forward",
+    "message", "bicycle", "puzzle", "improve", "careful", "recycle",
+    "feather", "airport", "perfect", "library", "plastic", "courage",
+    "holiday", "canvas", "bridge", "gather", "damage", "handle",
+    "signal", "shadow", "rescue", "yellow", "danger", "honest",
+    "castle", "nature", "rocket", "animal", "wander", "harvest",
+    "luggage", "passion", "mirror"
+  ],
+  "hard": [
+    "calendar", "diamond", "elephant", "factory", "garage", "history",
+    "internet", "justice", "kitchen", "language", "magnet", "necktie",
+    "octopus", "picture", "question", "rescue", "science", "traffic",
+    "vacuum", "weather", "balance", "capture", "density", "freedom",
+    "journey", "library", "monitor", "network", "package", "quality",
+    "recycle", "storage", "victory"
+  ],
+  "veryHard": [
+    "quarantine", "silhouette", "kaleidoscope", "subconscious", "reminiscent",
+    "hypocrisy", "miscellaneous", "picturesque", "jeopardize", "bureaucracy",
+    "acquiesce", "iridescent", "pseudonym", "entrepreneur", "reconnaissance",
+    "catastrophe", "juxtaposition", "conscientious", "belligerent", "dichotomy",
+    "parliament", "transcendent", "phenomenon", "benevolent", "exacerbate",
+    "idiosyncrasy", "metamorphosis", "camaraderie", "magnanimous", "existential",
+    "unfathomable", "anachronism", "labyrinth", "circumstances", "inconspicuous",
+    "malfeasance", "disingenuous", "egregious", "surreptitious", "vindicated"
+  ]
+}
