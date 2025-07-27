@@ -1,7 +1,11 @@
+from blessed import Terminal
 from rich.text import Text
+from rich.console import Console
 
 
-def render_typing_test(typed_text, reference_text, term, console):
+def render_typing_test(
+    typed_text: list[str], reference_text: list[str], term: Terminal, console: Console
+):
     text = Text()
     error_mode = False
 
@@ -22,7 +26,9 @@ def render_typing_test(typed_text, reference_text, term, console):
     console.print(text)
 
 
-def render_timed_test(typed_text, reference_text, term, console):
+def render_timed_test(
+    typed_text: list[str], reference_text: list[str], term: Terminal, console: Console
+):
     text = Text()
 
     for i, char in enumerate(reference_text):

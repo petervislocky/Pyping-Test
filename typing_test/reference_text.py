@@ -2,7 +2,8 @@ import json
 import random
 
 
-def load_json(path):
+def load_json(path: str):
+    """helper method to load words in from JSON"""
     try:
         with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
@@ -11,17 +12,16 @@ def load_json(path):
 
 
 class ReferenceText:
+    """
+    instantiating this class generates a list, separated by char,
+    of random words from the words list, based on the difficulty
+    setting given and stores it in an instance var to be retrieved by
+    the getter
+    """
 
     words = load_json("words.json")
 
-    def __init__(self, word_count, difficulty_setting):
-        """
-        Params: int of how many words to use for the reference text
-
-        init method for this class generates a list, separated by char,
-        of random words from the words list and stores it in an instance
-        var to be retrieved by the getter
-        """
+    def __init__(self, word_count: int, difficulty_setting: str):
         self.word_count = word_count  # remember to handle improper value
         self.difficulty = []
         self.get_difficulty_setting(difficulty_setting)
@@ -50,7 +50,12 @@ class ReferenceText:
         """
         return self.selected_chars
 
-    def get_difficulty_setting(self, difficulty_setting):
+    def get_difficulty_setting(self, difficulty_setting: str):
+        """
+        logic for controlling what words get added to the reference
+        text based on difficulty setting.
+        Each setting includes the previous settings' associated words
+        """
         match difficulty_setting:
             case "easy":
                 self.difficulty.append("easy")

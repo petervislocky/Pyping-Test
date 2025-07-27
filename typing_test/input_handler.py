@@ -1,6 +1,8 @@
-def capture_typing(term):
+from blessed import Terminal
+
+
+def capture_typing(term: Terminal):
     """
-    Params: Blessed Terminal object
     takes a blessed terminal object and uses cbreak to capture user
     keystrokes, if user presses esc, yields None, else it yields each
     keystroke one at a time.
