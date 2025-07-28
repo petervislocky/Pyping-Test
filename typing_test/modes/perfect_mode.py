@@ -1,64 +1,14 @@
 import time
-import argparse
 
 from blessed import Terminal
 from rich.console import Console
 
-from reference_text import ReferenceText
-import settings
-import input_handler
 import renderer
+import input_handler
 import metrics
 
 
-def parse_args():
-    """parses command line arguments"""
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--word-count", "-w", type=int, help="overrides word count for the current run"
-    )
-    parser.add_argument(
-        "--difficulty",
-        "-d",
-        choices=["easy", "medium", "hard", "veryHard"],
-        help="overrides difficulty for the current run",
-    )
-    parser.add_argument(
-        "--show-config",
-        action="store_true",
-        help="opens settings.json in text editor to edit it",
-    )
-    return parser.parse_args()
-
-
-def main():
-    # parsing args first to bypass potential config errors
-    args = parse_args()
-    # and handling show config before reading the config as well
-    if args.show_config:
-        settings.show_config_file()
-        return
-
-    term = Terminal()
-    console = Console()
-
-    # create_default_settings will only create a default JSON if one
-    # does not already exist
-    settings.create_default_settings()
-    # configuration is the programs copy of the JSON once its read, so
-    # can be temporarily overwritten for the runtime of the program
-    configuration = settings.read_settings()
-    settings.check_settings_validity(configuration)
-
-    # handling remaining args
-    if args.word_count:
-        configuration["word_count"] = args.word_count
-    if args.difficulty:
-        configuration["difficulty"] = args.difficulty
-
-    rf = ReferenceText(configuration["word_count"], configuration["difficulty"])
-    reference_text = rf.get_selected_chars()
-
+def run_perfect_mode(term: Terminal, console: Console, reference_text: list[str]):
     typed_text = []
     backspace_count = 0
     start_time = 0
@@ -94,7 +44,6 @@ def main():
             renderer.render_typing_test(typed_text, reference_text, term, console)
 
             if "".join(typed_text) == "".join(reference_text):
-                # print(term.clear) # clear the reference text from term
                 break
 
     end_time = time.time()
@@ -109,7 +58,3 @@ def main():
         f"[bold blue]Accuracy:[/] "
         f"{metrics.mistakes_count(backspace_count, len(reference_text), len(typed_text)):.2f}%"
     )
-
-
-if __name__ == "__main__":
-    main()
