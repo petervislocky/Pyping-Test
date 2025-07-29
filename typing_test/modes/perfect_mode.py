@@ -15,6 +15,7 @@ def run_perfect_mode(term: Terminal, console: Console, reference_text: list[str]
 
     with term.cbreak(), term.hidden_cursor():
         print(term.clear)
+        # Initial render call here renders the grey reference text
         renderer.render_typing_test(typed_text, reference_text, term, console)
 
         for key in input_handler.capture_typing(term):
@@ -22,11 +23,12 @@ def run_perfect_mode(term: Terminal, console: Console, reference_text: list[str]
                 print(term.clear + "Test canceled")
                 return  # Exits the entire main method
 
-            if key.name == "KEY_BACKSPACE":
+            # backpace logic
+            if key.name == "KEY_BACKSPACE" and typed_text:
                 backspace_count += 1
-                if typed_text:
-                    typed_text.pop()
+                typed_text.pop()
 
+            # ensuring only characters are added to typed_text list
             if len(typed_text) < len(reference_text) and key.name not in (
                 "KEY_ESCAPE",
                 "KEY_ENTER",
@@ -34,13 +36,12 @@ def run_perfect_mode(term: Terminal, console: Console, reference_text: list[str]
             ):
                 typed_text.append(str(key))
 
-            if start_time == 0 and key.name not in (
-                "KEY_BACKSPACE",
-                "KEY_ESCAPE",
-                "KEY_ENTER",
-            ):
-                start_time = time.time()
+                # start time only after first key press
+                if start_time == 0:
+                    start_time = time.time()
 
+            # This render call in the loop essentially refreshes the new
+            # image every time a key is pressed
             renderer.render_typing_test(typed_text, reference_text, term, console)
 
             if "".join(typed_text) == "".join(reference_text):
@@ -56,5 +57,5 @@ def run_perfect_mode(term: Terminal, console: Console, reference_text: list[str]
     )
     console.print(
         f"[bold blue]Accuracy:[/] "
-        f"{metrics.mistakes_count(backspace_count, len(reference_text), len(typed_text)):.2f}%"
+        f"{metrics.accuracy(backspace_count, len(reference_text), len(typed_text)):.2f}%"
     )

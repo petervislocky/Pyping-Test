@@ -72,10 +72,9 @@ def main():
                 print(term.clear + "Test canceled")
                 return  # Exits the entire main method
 
-            if key.name == "KEY_BACKSPACE":
+            if key.name == "KEY_BACKSPACE" and typed_text:
                 backspace_count += 1
-                if typed_text:
-                    typed_text.pop()
+                typed_text.pop()
 
             if len(typed_text) < len(reference_text) and key.name not in (
                 "KEY_ESCAPE",
@@ -84,12 +83,8 @@ def main():
             ):
                 typed_text.append(str(key))
 
-            if start_time == 0 and key.name not in (
-                "KEY_BACKSPACE",
-                "KEY_ESCAPE",
-                "KEY_ENTER",
-            ):
-                start_time = time.time()
+                if start_time == 0:
+                    start_time = time.time()
 
             renderer.render_typing_test(typed_text, reference_text, term, console)
 
@@ -107,7 +102,7 @@ def main():
     )
     console.print(
         f"[bold blue]Accuracy:[/] "
-        f"{metrics.mistakes_count(backspace_count, len(reference_text), len(typed_text)):.2f}%"
+        f"{metrics.accuracy(backspace_count, len(reference_text), len(typed_text)):.2f}%"
     )
 
 

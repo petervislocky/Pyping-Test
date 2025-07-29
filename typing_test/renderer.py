@@ -26,6 +26,7 @@ def render_typing_test(
     console.print(text)
 
 
+# TODO count mistakes in this method and return the number
 def render_timed_test(
     typed_text: list[str], reference_text: list[str], term: Terminal, console: Console
 ):
