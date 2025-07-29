@@ -8,10 +8,10 @@ import input_handler
 import metrics
 
 
-# TODO finish printing the metrics
+# TODO: finish printing the metrics
 
 
-# TODO count mistakes in the timed_test renderer method and return it to
+# TODO: count mistakes in the timed_test renderer method and return it to
 # this method to calculate the adjusted wpm
 def run_timed_mode(
     term: Terminal, console: Console, reference_text: list[str], duration_sec: int = 30
