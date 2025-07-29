@@ -11,13 +11,12 @@ import metrics
 # TODO: finish printing the metrics
 
 
-# TODO: count mistakes in the timed_test renderer method and return it to
-# this method to calculate the adjusted wpm
 def run_timed_mode(
     term: Terminal, console: Console, reference_text: list[str], duration_sec: int = 30
 ):
     typed_text = []
     start_time = 0
+    mistakes = 0
 
     with term.cbreak(), term.hidden_cursor():
         print(term.clear)
@@ -47,9 +46,17 @@ def run_timed_mode(
                 if start_time == 0:
                     start_time = time.time()
 
-            renderer.render_timed_test(typed_text, reference_text, term, console)
+            mistakes = renderer.render_timed_test(
+                typed_text, reference_text, term, console
+            )
 
             if "".join(typed_text) == "".join(reference_text):
                 break
 
-    elapsed = time.time() - start_time
+    time_elapsed_seconds = time.time() - start_time
+    time_elapsed_minutes = time_elapsed_seconds / 60
+
+    console.print(f"[bold green]Timed mode:[/] {time_elapsed_seconds:.2f}")
+    console.print(
+        f"[bold red]WPM:[/] {metrics.adjusted_wpm(len(typed_text), mistakes, time_elapsed_minutes)}"
+    )

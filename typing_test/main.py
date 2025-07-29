@@ -4,7 +4,7 @@ import argparse
 from blessed import Terminal
 from rich.console import Console
 
-from reference_text import ReferenceText
+from typing_test.reference_text import ReferenceText
 import settings
 import input_handler
 import renderer
@@ -28,13 +28,21 @@ def parse_args():
         action="store_true",
         help="opens settings.json in text editor to edit it",
     )
+    # TODO: implement the logic to apply these args
+    parser.add_argument(
+        "--timed-mode", action="store_true", help="switches test mode to timed test"
+    )
+    parser.add_argument(
+        "--perf-mode", action="store_true", help="switches test mode to perfect test"
+    )
     return parser.parse_args()
 
 
 def main():
     # parsing args first to bypass potential config errors
     args = parse_args()
-    # and handling show config before reading the config as well
+    # and handling show config before reading the config as well so it
+    # can be edited this way even if its throwing errors
     if args.show_config:
         settings.show_config_file()
         return
@@ -59,6 +67,7 @@ def main():
     rf = ReferenceText(configuration["word_count"], configuration["difficulty"])
     reference_text = rf.get_selected_chars()
 
+    # TODO: remove this and replace with test mode selection logic
     typed_text = []
     backspace_count = 0
     start_time = 0

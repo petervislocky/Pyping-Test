@@ -29,6 +29,7 @@ def _get_config_file():
 CONFIG_FILE = _get_config_file()
 
 
+# TODO: add a default value for timed or perfect test to settings
 def create_default_settings():
     if not CONFIG_FILE.exists():
         settings = {"word_count": 30, "difficulty": "medium"}
@@ -49,6 +50,7 @@ def show_config_file():
         subprocess.run([editor, str(CONFIG_FILE)])
 
 
+# TODO: check validity of test mode in settings
 def check_settings_validity(settings: dict):
 
     class InvalidSettingsError(Exception):
