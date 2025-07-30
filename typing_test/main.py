@@ -4,7 +4,9 @@ import argparse
 from blessed import Terminal
 from rich.console import Console
 
-from typing_test.reference_text import ReferenceText
+from reference_text import ReferenceText
+from modes import timed_mode
+from modes import perfect_mode
 import settings
 import input_handler
 import renderer
@@ -28,7 +30,6 @@ def parse_args():
         action="store_true",
         help="opens settings.json in text editor to edit it",
     )
-    # TODO: implement the logic to apply these args
     parser.add_argument(
         "--timed-mode", action="store_true", help="switches test mode to timed test"
     )
@@ -63,56 +64,23 @@ def main():
         configuration["word_count"] = args.word_count
     if args.difficulty:
         configuration["difficulty"] = args.difficulty
+    if args.timed_mode and args.perf_mode:
+        raise ValueError("You cannot enable both timed and perfect mode")
+    if args.timed_mode:
+        configuration["mode"] = "timed"
+    if args.perf_mode:
+        configuration["mode"] = "perfect"
 
+    # TODO: generate enough text for the user to keep typing for the
+    # entire duration in timed mode, either move this logic below to the
+    # individual mode modules, or handle it here
     rf = ReferenceText(configuration["word_count"], configuration["difficulty"])
     reference_text = rf.get_selected_chars()
 
-    # TODO: remove this and replace with test mode selection logic
-    typed_text = []
-    backspace_count = 0
-    start_time = 0
-
-    with term.cbreak(), term.hidden_cursor():
-        print(term.clear)
-        renderer.render_typing_test(typed_text, reference_text, term, console)
-
-        for key in input_handler.capture_typing(term):
-            if key is None:  # if key is None then ESC was pressed
-                print(term.clear + "Test canceled")
-                return  # Exits the entire main method
-
-            if key.name == "KEY_BACKSPACE" and typed_text:
-                backspace_count += 1
-                typed_text.pop()
-
-            if len(typed_text) < len(reference_text) and key.name not in (
-                "KEY_ESCAPE",
-                "KEY_ENTER",
-                "KEY_BACKSPACE",
-            ):
-                typed_text.append(str(key))
-
-                if start_time == 0:
-                    start_time = time.time()
-
-            renderer.render_typing_test(typed_text, reference_text, term, console)
-
-            if "".join(typed_text) == "".join(reference_text):
-                # print(term.clear) # clear the reference text from term
-                break
-
-    end_time = time.time()
-    time_elapsed_sec = end_time - start_time
-    time_elapsed_min = time_elapsed_sec / 60
-
-    console.print(f"[bold green]Time:[/] {time_elapsed_sec:.2f} seconds")
-    console.print(
-        f"[bold red]Speed:[/] {metrics.wpm(len(reference_text), time_elapsed_min):.2f} WPM"
-    )
-    console.print(
-        f"[bold blue]Accuracy:[/] "
-        f"{metrics.accuracy(backspace_count, len(reference_text), len(typed_text)):.2f}%"
-    )
+    if configuration["mode"] == "perfect":
+        perfect_mode.run_perfect_mode(term, console, reference_text)
+    elif configuration["mode"] == "timed":
+        timed_mode.run_timed_mode(term, console, reference_text, duration_sec=10)
 
 
 if __name__ == "__main__":

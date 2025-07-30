@@ -29,10 +29,9 @@ def _get_config_file():
 CONFIG_FILE = _get_config_file()
 
 
-# TODO: add a default value for timed or perfect test to settings
 def create_default_settings():
     if not CONFIG_FILE.exists():
-        settings = {"word_count": 30, "difficulty": "medium"}
+        settings = {"word_count": 30, "difficulty": "medium", "mode": "perfect"}
         with CONFIG_FILE.open("w") as file:
             json.dump(settings, file, indent=4)
 
@@ -50,7 +49,6 @@ def show_config_file():
         subprocess.run([editor, str(CONFIG_FILE)])
 
 
-# TODO: check validity of test mode in settings
 def check_settings_validity(settings: dict):
 
     class InvalidSettingsError(Exception):
@@ -72,7 +70,14 @@ def check_settings_validity(settings: dict):
                 "options are easy, medium, hard, or veryHard"
             )
 
-    valid_settings = ["word_count", "difficulty"]
+    def mode_validity(mode: str):
+        if mode not in ("perfect", "timed"):
+            raise InvalidSettingsError(
+                f"Config error: invalid mode setting {mode}, "
+                "options are perfect or timed"
+            )
+
+    valid_settings = ["word_count", "difficulty", "mode"]
     for key in valid_settings:
         if key not in settings:
             raise InvalidSettingsError(
@@ -81,3 +86,4 @@ def check_settings_validity(settings: dict):
 
     word_count_validity(settings["word_count"])
     difficulty_validity(settings["difficulty"])
+    mode_validity(settings["mode"])
