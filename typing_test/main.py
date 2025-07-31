@@ -8,12 +8,9 @@ from reference_text import ReferenceText
 from modes import timed_mode
 from modes import perfect_mode
 import settings
-import input_handler
-import renderer
-import metrics
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     """parses command line arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -31,10 +28,14 @@ def parse_args():
         help="opens settings.json in text editor to edit it",
     )
     parser.add_argument(
-        "--timed-mode", action="store_true", help="switches test mode to timed test"
+        "--timed-mode",
+        action="store_true",
+        help="overrides config and sets timed mode for current run",
     )
     parser.add_argument(
-        "--perf-mode", action="store_true", help="switches test mode to perfect test"
+        "--perf-mode",
+        action="store_true",
+        help="overrides config and sets perfect mode for current run",
     )
     return parser.parse_args()
 

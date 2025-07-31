@@ -5,7 +5,8 @@ from rich.console import Console
 
 def render_typing_test(
     typed_text: list[str], reference_text: list[str], term: Terminal, console: Console
-):
+) -> None:
+    """Renderer for the perfect typing test graphics"""
     text = Text()
     error_mode = False
 
@@ -28,7 +29,8 @@ def render_typing_test(
 
 def render_timed_test(
     typed_text: list[str], reference_text: list[str], term: Terminal, console: Console
-):
+) -> None:
+    """Renderer for the timed typing test"""
     text = Text()
 
     for i, char in enumerate(reference_text):

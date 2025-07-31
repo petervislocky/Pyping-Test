@@ -1,9 +1,10 @@
 import json
 import random
+from typing import Any
 
 
-def load_json(path: str):
-    """helper method to load words in from JSON"""
+def load_json(path: str) -> dict[str, Any] | None:
+    """Helper method to load words in from JSON"""
     try:
         with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
@@ -13,7 +14,7 @@ def load_json(path: str):
 
 class ReferenceText:
     """
-    instantiating this class generates a list, separated by char,
+    Instantiating this class generates a list, separated by char,
     of random words from the words list, based on the difficulty
     setting given and stores it in an instance var to be retrieved by
     the getter
@@ -22,15 +23,15 @@ class ReferenceText:
     words = load_json("words.json")
 
     def __init__(self, word_count: int, difficulty_setting: str):
-        self.word_count = word_count  # remember to handle improper value
+        self.word_count = word_count
         self.difficulty = []
-        self.get_difficulty_setting(difficulty_setting)
-        self.selected_words = self.gen_reference_text()
+        self._get_difficulty_setting(difficulty_setting)
+        self.selected_words = self._gen_reference_text()
         self.selected_chars = list(self.selected_words)
 
-    def gen_reference_text(self):
+    def _gen_reference_text(self) -> str:
         """
-        makes random choices from the words dictionary based on the
+        Makes random choices from the words dictionary based on the
         difficulty selected
         """
         selected_words = []
@@ -43,17 +44,11 @@ class ReferenceText:
 
         return " ".join(selected_words)
 
-    def get_selected_chars(self):
+    def _get_difficulty_setting(self, difficulty_setting: str) -> None:
         """
-        getter method for getting the reference text list that's been
-        generated
-        """
-        return self.selected_chars
-
-    def get_difficulty_setting(self, difficulty_setting: str):
-        """
-        logic for controlling what words get added to the reference
+        Logic for controlling what words get added to the reference
         text based on difficulty setting.
+
         Each setting includes the previous settings' associated words
         """
         match difficulty_setting:
@@ -69,3 +64,10 @@ class ReferenceText:
                 # using assert False here because this line should never execute unless something
                 # has gone very wrong, any malformed difficulty setting should be caught in main()
                 assert False, f"Unexpected difficulty setting, {difficulty_setting}"
+
+    def get_selected_chars(self) -> list[str]:
+        """
+        Getter method for getting the reference text list that's been
+        generated
+        """
+        return self.selected_chars

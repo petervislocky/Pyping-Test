@@ -10,7 +10,7 @@ import metrics
 
 def run_timed_mode(
     term: Terminal, console: Console, reference_text: list[str], duration_sec: int = 30
-):
+) -> None:
     typed_text = []
     start_time = 0
     mistakes = 0
@@ -44,8 +44,6 @@ def run_timed_mode(
                     start_time = time.time()
 
             renderer.render_timed_test(typed_text, reference_text, term, console)
-            # mistakes only counts mistakes that were not corrected
-            mistakes = metrics.count_mistakes(typed_text, reference_text)
 
             if "".join(typed_text) == "".join(reference_text):
                 break
@@ -59,5 +57,5 @@ def run_timed_mode(
     )
     console.print(
         f"[bold blue]Accuracy:[/] "
-        f"{metrics.accuracy(mistakes, len(reference_text), len(typed_text)):.2f}%"
+        f"{metrics.timed_accuracy(typed_text, reference_text):.2f}%"
     )

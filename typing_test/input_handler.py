@@ -1,10 +1,15 @@
+from typing import Iterator
+
 from blessed import Terminal
+from blessed.keyboard import Keystroke
 
 
-def capture_typing(term: Terminal):
+def capture_typing(term: Terminal) -> Iterator[None | Keystroke]:
     """
-    takes a blessed terminal object and uses cbreak to capture user
-    keystrokes, if user presses esc, yields None, else it yields each
+    Takes a blessed terminal object and uses cbreak to capture user
+    keystrokes.
+
+    If user presses esc, yields None, else it yields each
     keystroke one at a time.
     """
     with term.cbreak():

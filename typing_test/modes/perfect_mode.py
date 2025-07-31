@@ -8,7 +8,9 @@ import input_handler
 import metrics
 
 
-def run_perfect_mode(term: Terminal, console: Console, reference_text: list[str]):
+def run_perfect_mode(
+    term: Terminal, console: Console, reference_text: list[str]
+) -> None:
     typed_text = []
     backspace_count = 0
     start_time = 0
