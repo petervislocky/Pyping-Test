@@ -40,47 +40,51 @@ def parse_args() -> argparse.Namespace:
 
 
 def main():
-    # parsing args first to bypass potential config errors
+    # Parsing args first to bypass potential config errors
     args = parse_args()
-    # and handling show config before reading the config as well so it
-    # can be edited this way even if its throwing errors
+    # and handling `--show-config` before reading the config as well so
+    # it can be edited this way even if it's throwing errors
     if args.show_config:
         settings.show_config_file()
         return
 
-    term = Terminal()
-    console = Console()
-
-    # create_default_settings will only create a default JSON if one
+    # Create_default_settings will only create a default JSON if one
     # does not already exist
     settings.create_default_settings()
-    # configuration is the programs copy of the JSON once its read, so
+    # Configuration is the programs copy of the JSON once its read, so
     # can be temporarily overwritten for the runtime of the program
     configuration = settings.read_settings()
     settings.check_settings_validity(configuration)
 
-    # handling remaining args
+    # Handling remaining args
+
+    # Validating conflicts before applying valid args
+    if args.timed_mode and args.perf_mode:
+        raise ValueError("You cannot enable both timed and perfect mode")
+    if args.timed_mode and args.word_count:
+        raise ValueError("Timed mode and word-count are incompatible settings")
+
     if args.word_count:
         configuration["word_count"] = args.word_count
     if args.difficulty:
         configuration["difficulty"] = args.difficulty
-    if args.timed_mode and args.perf_mode:
-        raise ValueError("You cannot enable both timed and perfect mode")
     if args.timed_mode:
         configuration["mode"] = "timed"
     if args.perf_mode:
         configuration["mode"] = "perfect"
 
-    # TODO: generate enough text for the user to keep typing for the
-    # entire duration in timed mode, either move this logic below to the
-    # individual mode modules, or handle it here
-    rf = ReferenceText(configuration["word_count"], configuration["difficulty"])
-    reference_text = rf.get_selected_chars()
+    term = Terminal()
+    console = Console()
 
     if configuration["mode"] == "perfect":
+        rf = ReferenceText(configuration["word_count"], configuration["difficulty"])
+        reference_text = rf.get_selected_chars()
         perfect_mode.run_perfect_mode(term, console, reference_text)
     elif configuration["mode"] == "timed":
-        timed_mode.run_timed_mode(term, console, reference_text, duration_sec=10)
+        rf = ReferenceText(None, configuration["difficulty"])
+        reference_text = rf.get_selected_chars()
+        # TODO: handle `duration_sec` in the settings JSON, not here
+        timed_mode.run_timed_mode(term, console, rf, reference_text, duration_sec=60)
 
 
 if __name__ == "__main__":
