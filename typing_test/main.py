@@ -8,9 +8,12 @@ from modes import timed_mode
 from modes import perfect_mode
 import settings
 
+# TODO: create a new arg or an optional add on to the --timed-mode arg to
+# override the time duration of timed mode
+
 
 def parse_args() -> argparse.Namespace:
-    """parses command line arguments"""
+    """Parses command line arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--word-count", "-w", type=int, help="overrides word count for the current run"
@@ -83,7 +86,7 @@ def main():
     elif configuration["mode"] == "timed":
         rf = ReferenceText(None, configuration["difficulty"])
         reference_text = rf.get_selected_chars()
-        # TODO: handle `duration_sec` in the settings JSON, not here
+        # TODO: pull existing duration settings from JSON item `timer`
         timed_mode.run_timed_mode(term, console, rf, reference_text, duration_sec=60)
 
 

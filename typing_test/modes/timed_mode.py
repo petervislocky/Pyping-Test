@@ -9,8 +9,9 @@ import input_handler
 import metrics
 
 
-# TODO: get rid of default kwarg for `duration_sec` and handle default in
-# config
+# TODO: get rid of default kwarg for `duration_sec` and apply setting
+# thats already in the config file
+# TODO: Add a live timer
 def run_timed_mode(
     term: Terminal,
     console: Console,
@@ -27,7 +28,7 @@ def run_timed_mode(
     # passed to this method and therefore needs to be generated below
     # in order to have initial text to render
     if not reference_text:
-        rf.gen_reference_text(30)
+        rf.gen_reference_text(100)
         reference_text = rf.get_selected_chars()
 
     with term.cbreak(), term.hidden_cursor():
@@ -61,8 +62,8 @@ def run_timed_mode(
             renderer.render_timed_test(typed_text, reference_text, term, console)
 
             # If user runs out of text to type more is generated here
-            if len(typed_text) == len(reference_text) - 1:
-                rf.gen_reference_text(20)
+            if len(typed_text) == len(reference_text) - 15:
+                rf.gen_reference_text(50)
                 reference_text = rf.get_selected_chars()
 
     time_elapsed_seconds = time.time() - start_time

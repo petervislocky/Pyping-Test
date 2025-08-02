@@ -30,10 +30,14 @@ def _get_config_file() -> Path:
 CONFIG_FILE = _get_config_file()
 
 
-# TODO: Create a setting block for timed mode time
 def create_default_settings() -> None:
     if not CONFIG_FILE.exists():
-        settings = {"word_count": 30, "difficulty": "medium", "mode": "perfect"}
+        settings = {
+            "word_count": 30,
+            "difficulty": "medium",
+            "mode": "perfect",
+            "timer": 30,
+        }
         with CONFIG_FILE.open("w") as file:
             json.dump(settings, file, indent=4)
 
@@ -79,7 +83,16 @@ def check_settings_validity(settings: dict[str, Any]) -> None:
                 "options are perfect or timed"
             )
 
-    valid_settings = ["word_count", "difficulty", "mode"]
+    def timer_validity(timer: int) -> None:
+        if timer not in (15, 30, 60, 90, 120, 180):
+            raise InvalidSettingsError(
+                f"Config error: valid time limits are 15, 30, 60, 90, 120, and 180 sec"
+            )
+
+    # Timer is not strictly necessary for the program to run unless you
+    # are typing in timed mode, but for stability's sake I'm making it
+    # required in order to run the program Could change in the future
+    valid_settings = ["word_count", "difficulty", "mode", "timer"]
     for key in valid_settings:
         if key not in settings:
             raise InvalidSettingsError(
@@ -89,3 +102,4 @@ def check_settings_validity(settings: dict[str, Any]) -> None:
     word_count_validity(settings["word_count"])
     difficulty_validity(settings["difficulty"])
     mode_validity(settings["mode"])
+    timer_validity(settings["timer"])
