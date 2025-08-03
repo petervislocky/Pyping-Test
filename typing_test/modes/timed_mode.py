@@ -17,7 +17,7 @@ def run_timed_mode(
     console: Console,
     rf: ReferenceText,
     reference_text: list[str],
-    duration_sec: int = 30,
+    duration_sec: int,
 ) -> None:
     typed_text = []
     start_time = 0

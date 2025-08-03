@@ -35,6 +35,13 @@ def parse_args() -> argparse.Namespace:
         help="overrides config and sets timed mode for current run",
     )
     parser.add_argument(
+        "--time",
+        "-t",
+        type=int,
+        choices=[15, 30, 60, 90, 120, 180],
+        help="overrides the time for timed mode for current run",
+    )
+    parser.add_argument(
         "--perf-mode",
         action="store_true",
         help="overrides config and sets perfect mode for current run",
@@ -73,6 +80,8 @@ def main():
         configuration["difficulty"] = args.difficulty
     if args.timed_mode:
         configuration["mode"] = "timed"
+    if args.time:
+        configuration["timer"] = args.time
     if args.perf_mode:
         configuration["mode"] = "perfect"
 
@@ -86,8 +95,9 @@ def main():
     elif configuration["mode"] == "timed":
         rf = ReferenceText(None, configuration["difficulty"])
         reference_text = rf.get_selected_chars()
-        # TODO: pull existing duration settings from JSON item `timer`
-        timed_mode.run_timed_mode(term, console, rf, reference_text, duration_sec=60)
+        timed_mode.run_timed_mode(
+            term, console, rf, reference_text, configuration["timer"]
+        )
 
 
 if __name__ == "__main__":
