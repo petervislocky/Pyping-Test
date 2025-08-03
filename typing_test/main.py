@@ -8,13 +8,29 @@ from modes import timed_mode
 from modes import perfect_mode
 import settings
 
-# TODO: create a new arg or an optional add on to the --timed-mode arg to
-# override the time duration of timed mode
-
 
 def parse_args() -> argparse.Namespace:
     """Parses command line arguments"""
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description=(
+            "Pyping Test\n"
+            "A TUI typing test written entirely in Python\n\n"
+            "To access the settings run --show-config\n\n"
+            "Options for the config file are as follows:\n\n"
+            "word_count: How many words are present to type in the test\n"
+            "   - Can be any int from 5-300\n"
+            "difficulty: What complexity level of words are present in the test\n"
+            "   - Options are easy, medium, hard, and veryHard\n"
+            "   - Setting a higher difficulty level will include words from all the "
+            "lower levels as well\n"
+            "mode: Perfect mode or timed mode, perfect mode cannot be completed with "
+            "errors present, timed is based on the timer set and ignores `word_count`\n"
+            "   - Options are perfect or timed\n"
+            "timer: How long the timed mode test will run for\n"
+            "   - Options are 15, 30, 60, 90, 120, and 180"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     parser.add_argument(
         "--word-count", "-w", type=int, help="overrides word count for the current run"
     )
@@ -38,6 +54,7 @@ def parse_args() -> argparse.Namespace:
         "--time",
         "-t",
         type=int,
+        metavar="SECONDS",
         choices=[15, 30, 60, 90, 120, 180],
         help="overrides the time for timed mode for current run",
     )
