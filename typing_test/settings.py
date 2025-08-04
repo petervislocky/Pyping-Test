@@ -6,6 +6,12 @@ import platform
 from typing import Any
 
 
+DEFAULT_SETTINGS = {
+    "word_count": 30,
+    "difficulty": "medium",
+    "mode": "perfect",
+    "timer": 30,
+}
 system = platform.system()
 
 
@@ -32,14 +38,8 @@ CONFIG_FILE = _get_config_file()
 
 def create_default_settings() -> None:
     if not CONFIG_FILE.exists():
-        settings = {
-            "word_count": 30,
-            "difficulty": "medium",
-            "mode": "perfect",
-            "timer": 30,
-        }
         with CONFIG_FILE.open("w") as file:
-            json.dump(settings, file, indent=4)
+            json.dump(DEFAULT_SETTINGS, file, indent=4)
 
 
 def read_settings() -> dict[str, Any]:
@@ -48,6 +48,10 @@ def read_settings() -> dict[str, Any]:
 
 
 def show_config_file() -> None:
+    if not CONFIG_FILE.exists():
+        with CONFIG_FILE.open("w") as file:
+            json.dump(DEFAULT_SETTINGS, file, indent=4)
+
     if system == "Windows":
         subprocess.run(["notepad", str(CONFIG_FILE)])
     else:
