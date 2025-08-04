@@ -9,8 +9,6 @@ import input_handler
 import metrics
 
 
-# TODO: get rid of default kwarg for `duration_sec` and apply setting
-# thats already in the config file
 # TODO: Add a live timer
 def run_timed_mode(
     term: Terminal,
