@@ -17,12 +17,7 @@ system = platform.system()
 
 def _get_config_file() -> Path:
     """Creates a path for the config file based on user OS"""
-    if system == "Windows":
-        app_data = os.getenv("APPDATA")
-        if not app_data:
-            raise EnvironmentError("APPDATA environment variable not found")
-        config_dir = Path(app_data) / "pypingtest"
-    elif system == "Darwin":  # MacOS
+    if system == "Darwin":  # MacOS
         config_dir = Path.home() / "Library" / "Application Support" / "pypingtest"
     else:  # Linux and other *nix
         config_dir = (
@@ -52,11 +47,8 @@ def show_config_file() -> None:
         with CONFIG_FILE.open("w") as file:
             json.dump(DEFAULT_SETTINGS, file, indent=4)
 
-    if system == "Windows":
-        subprocess.run(["notepad", str(CONFIG_FILE)])
-    else:
-        editor = os.getenv("EDITOR", "nano")
-        subprocess.run([editor, str(CONFIG_FILE)])
+    editor = os.getenv("EDITOR", "nano")
+    subprocess.run([editor, str(CONFIG_FILE)])
 
 
 def check_settings_validity(settings: dict[str, Any]) -> None:
