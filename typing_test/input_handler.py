@@ -4,6 +4,7 @@ from blessed import Terminal
 from blessed.keyboard import Keystroke
 
 
+# TODO: add async here
 def capture_typing(term: Terminal) -> Iterator[None | Keystroke]:
     """
     Takes a blessed terminal object and uses cbreak to capture user
