@@ -21,13 +21,14 @@ def blink_cursor() -> bool:
     return int(time.time() * 2) % 2 == 0
 
 
-# TODO: Add async here
+# TODO: Add async here for blinking cursor setting
 def render_typing_test(
     typed_text: list[str], reference_text: list[str], term: Terminal, console: Console
 ) -> None:
     """Renderer for the perfect typing test graphics"""
     text = Text()
     error_mode = False
+    cursor_index = len(typed_text)
 
     for i, char in enumerate(reference_text):
         if i < len(typed_text):
@@ -39,6 +40,8 @@ def render_typing_test(
                 else:
                     error_mode = True
                     text.append(char, style="bold red on pale_violet_red1")
+        elif i == cursor_index:
+            text.append(char, style="bold reverse")
         else:
             text.append(char, style="bold grey42")
 
