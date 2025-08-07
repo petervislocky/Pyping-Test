@@ -67,11 +67,12 @@ def run_timed_mode(
     time_elapsed_seconds = time.time() - start_time
     time_elapsed_minutes = time_elapsed_seconds / 60
 
-    console.print(f"[bold green]Timed mode:[/] {time_elapsed_seconds:.2f}")
+    console.print(f"[bold green]Timed mode:[/] {int( time_elapsed_seconds )} seconds")
+    # NOTE: Consider adding raw WPM below adjusted since I already have the code for it
     console.print(
-        f"[bold red]WPM:[/] {metrics.adjusted_wpm(len(typed_text), mistakes, time_elapsed_minutes):.2f}"
+        f"[bold red]Speed:[/] {metrics.adjusted_wpm(len(typed_text), mistakes, time_elapsed_minutes):.2f} wpm"
     )
     console.print(
         f"[bold blue]Accuracy:[/] "
-        f"{metrics.timed_accuracy(typed_text, reference_text):.2f}%"
+        f"{metrics.timed_accuracy(typed_text, reference_text):.2f} %"
     )

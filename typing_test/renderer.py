@@ -41,7 +41,7 @@ def render_typing_test(
                     error_mode = True
                     text.append(char, style="bold red on pale_violet_red1")
         elif i == cursor_index:
-            text.append(char, style="bold reverse")
+            text.append(char, style="bold white on dark_green")
         else:
             text.append(char, style="bold grey42")
 
@@ -61,6 +61,8 @@ def render_timed_test(
                 text.append(char, style="bold bright_green")
             else:
                 text.append(char, style="bold red on pale_violet_red1")
+        elif i == len(typed_text):
+            text.append(char, style="bold white on dark_green")
         else:
             text.append(char, style="bold grey42")
 

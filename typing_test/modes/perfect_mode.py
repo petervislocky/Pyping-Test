@@ -53,11 +53,11 @@ def run_perfect_mode(
     time_elapsed_sec = end_time - start_time
     time_elapsed_min = time_elapsed_sec / 60
 
-    console.print(f"[bold green]Time:[/] {time_elapsed_sec:.2f} seconds")
+    console.print(f"[bold green]Time to complete:[/] {int( time_elapsed_sec )} seconds")
     console.print(
-        f"[bold red]Speed:[/] {metrics.wpm(len(reference_text), time_elapsed_min):.2f} WPM"
+        f"[bold red]Speed:[/] {metrics.wpm(len(reference_text), time_elapsed_min):.2f} wpm (words per minute)"
     )
     console.print(
         f"[bold blue]Accuracy:[/] "
-        f"{metrics.accuracy(backspace_count, len(reference_text), len(typed_text)):.2f}%"
+        f"{metrics.accuracy(backspace_count, len(reference_text), len(typed_text)):.2f} %"
     )
