@@ -1,6 +1,6 @@
+from typing import Any
 import json
 import random
-from typing import Any
 
 
 def load_json(path: str) -> dict[str, Any] | None:

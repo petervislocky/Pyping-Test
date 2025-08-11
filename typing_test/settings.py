@@ -1,9 +1,9 @@
 from pathlib import Path
+from typing import Any
 import subprocess
 import json
 import os
 import platform
-from typing import Any
 
 
 DEFAULT_SETTINGS = {
