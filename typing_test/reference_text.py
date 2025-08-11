@@ -40,6 +40,7 @@ class ReferenceText:
         if word_count is not None:
             self.gen_reference_text(word_count)
 
+    # TODO: add a weighting system to prevent the same word back to back
     def gen_reference_text(self, count: int) -> None:
         """
         Makes random choices from the words json based on the difficulty

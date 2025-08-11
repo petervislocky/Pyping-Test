@@ -19,7 +19,6 @@ def run_timed_mode(
 ) -> None:
     typed_text = []
     start_time = 0
-    mistakes = 0
 
     # Because `reference_text` can (and does here) take None as a value
     # for `word_count`, reference_text can (will) initially be None when
@@ -64,13 +63,16 @@ def run_timed_mode(
                 rf.gen_reference_text(50)
                 reference_text = rf.get_selected_chars()
 
+    mistakes = metrics.find_mistakes(typed_text, reference_text)
     time_elapsed_seconds = time.time() - start_time
     time_elapsed_minutes = time_elapsed_seconds / 60
 
     console.print(f"[bold green]Timed mode:[/] {int( time_elapsed_seconds )} seconds")
-    # NOTE: Consider adding raw WPM below adjusted since I already have the code for it
     console.print(
-        f"[bold red]Speed:[/] {metrics.adjusted_wpm(len(typed_text), mistakes, time_elapsed_minutes):.2f} wpm"
+        f"[bold red]Words per minute:[/] {metrics.adjusted_wpm(len(typed_text), mistakes, time_elapsed_minutes):.2f} wpm"
+    )
+    console.print(
+        f"[bold dark_red]Raw words per minute:[/] {metrics.wpm(len(typed_text),time_elapsed_minutes):.2f} wpm"
     )
     console.print(
         f"[bold blue]Accuracy:[/] "

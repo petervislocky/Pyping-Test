@@ -32,3 +32,14 @@ def timed_accuracy(typed_text: list[str], reference_text: list[str]) -> float:
     )
     total = len(typed_text)
     return (correct / total) * 100
+
+
+def find_mistakes(typed_text: list[str], reference_text: list[str]) -> int:
+    """Function to find and count mistakes"""
+    mistakes = 0
+    for i, char in enumerate(reference_text):
+        if i >= len(typed_text):
+            break
+        if typed_text[i] != char:
+            mistakes += 1
+    return mistakes

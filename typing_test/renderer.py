@@ -5,7 +5,7 @@ from rich.text import Text
 from rich.console import Console
 
 
-# TODO: Use this logic to implement a blinking cursor. Run the renderers
+# NOTE: Use this logic to implement a blinking cursor. Run the renderers
 # and input_handler in async so the rendering can refresh independent
 # of keystrokes
 def blink_cursor() -> bool:
