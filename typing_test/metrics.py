@@ -14,6 +14,11 @@ def accuracy(backspace_count: int, ref_length: int, typed_length: int) -> float:
     return (ref_length / (typed_length + backspace_count)) * 100
 
 
+# TODO: add backspace count to this because I just realized this will
+# only count the mistakes that are not backspaced, so counting
+# backspaces will account for that, but ill make it only take off half
+# a percent so as not to punish as heavily as a mistake or something
+# like that
 def timed_accuracy(typed_text: list[str], reference_text: list[str]) -> float:
     """
     Used for timed mode only.
