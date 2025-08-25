@@ -19,6 +19,7 @@ def run_timed_mode(
 ) -> None:
     typed_text = []
     start_time = 0
+    backspace_count = 0
 
     # Because `reference_text` can (and does here) take None as a value
     # for `word_count`, reference_text can (will) initially be None when
@@ -44,6 +45,7 @@ def run_timed_mode(
 
             if key.name == "KEY_BACKSPACE":
                 if typed_text:
+                    backspace_count += 1
                     typed_text.pop()
 
             if len(typed_text) < len(reference_text) and key.name not in (
@@ -76,5 +78,5 @@ def run_timed_mode(
     )
     console.print(
         f"[bold blue]Accuracy:[/] "
-        f"{metrics.timed_accuracy(typed_text, reference_text):.2f} %"
+        f"{metrics.timed_accuracy(typed_text, reference_text, backspace_count):.2f} %"
     )

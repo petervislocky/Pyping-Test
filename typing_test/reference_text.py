@@ -84,3 +84,12 @@ class ReferenceText:
         generated
         """
         return self.selected_chars
+
+    # HACK: threw this together to add a weighting system, not tested or
+    # implemented yet
+    def ensure_no_dupes(self, diff_level: str) -> str | None:
+        prev_word = None
+        candidate = random.choice(self.words[diff_level]) if self.words else ""
+        if candidate != prev_word:
+            prev_word = candidate
+            return candidate

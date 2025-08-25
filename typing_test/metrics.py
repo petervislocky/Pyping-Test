@@ -14,12 +14,9 @@ def accuracy(backspace_count: int, ref_length: int, typed_length: int) -> float:
     return (ref_length / (typed_length + backspace_count)) * 100
 
 
-# TODO: add backspace count to this because I just realized this will
-# only count the mistakes that are not backspaced, so counting
-# backspaces will account for that, but ill make it only take off half
-# a percent so as not to punish as heavily as a mistake or something
-# like that
-def timed_accuracy(typed_text: list[str], reference_text: list[str]) -> float:
+def timed_accuracy(
+    typed_text: list[str], reference_text: list[str], backspace_count: int
+) -> float:
     """
     Used for timed mode only.
 
@@ -29,6 +26,10 @@ def timed_accuracy(typed_text: list[str], reference_text: list[str]) -> float:
 
     Divides num of correct keys by the lenght of `typed_text` and * by
     100 to get the accuracy percentage.
+
+    Accounts for backspaces by only removing 0.5% per backspace from
+    `base_accuracy`, to avoid losing 2% accuracy for a mistake + a
+    backspace.
     """
     correct = sum(
         1
@@ -36,7 +37,11 @@ def timed_accuracy(typed_text: list[str], reference_text: list[str]) -> float:
         if i < len(reference_text) and char == reference_text[i]
     )
     total = len(typed_text)
-    return (correct / total) * 100
+    if total == 0:
+        return 0.0
+    base_accuracy = (correct / total) * 100
+    penalty = backspace_count * 0.5
+    return max(0, base_accuracy - penalty)
 
 
 def find_mistakes(typed_text: list[str], reference_text: list[str]) -> int:
