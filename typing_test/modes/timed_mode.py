@@ -74,7 +74,7 @@ def run_timed_mode(
         f"[bold red]Words per minute:[/] {metrics.adjusted_wpm(len(typed_text), mistakes, time_elapsed_minutes):.2f} wpm"
     )
     console.print(
-        f"[bold dark_red]Raw words per minute:[/] {metrics.wpm(len(typed_text),time_elapsed_minutes):.2f} wpm"
+        f"[bold medium_purple3]Raw words per minute:[/] {metrics.wpm(len(typed_text),time_elapsed_minutes):.2f} wpm"
     )
     console.print(
         f"[bold blue]Accuracy:[/] "
