@@ -26,21 +26,21 @@ class ReferenceText:
     words = load_json("words.json")
 
     def __init__(self, word_count: int | None, difficulty_setting: str):
-        self.word_count = word_count
-        self.difficulty = []
+        self.word_count: int | None = word_count
+        self.difficulty: list[str] = []
         self._get_difficulty_setting(difficulty_setting)
         # Initially I handled the word gen here by calling
         # `gen_reference_text` within the class but this was allows me
         # to generate more text (for timed mode) by calling
         # `gen_reference_text` outside the class and adding the new text
         # below
-        self.selected_words = []
-        self.selected_chars = []
+        self.prev_word: str | None = None
+        self.selected_words: list[str] = []
+        self.selected_chars: list[str] = []
 
         if word_count is not None:
             self.gen_reference_text(word_count)
 
-    # TODO: add a weighting system to prevent the same word back to back
     def gen_reference_text(self, count: int) -> None:
         """
         Makes random choices from the words json based on the difficulty
@@ -51,8 +51,7 @@ class ReferenceText:
         """
         for _ in range(count):
             diff_level = random.choice(self.difficulty)
-            # have to include the else incase words JSON isn't found
-            word = random.choice(self.words[diff_level]) if self.words else ""
+            word = self.ensure_no_dupes(diff_level)
             self.selected_words.append(word)
 
         self.selected_chars = list(" ".join(self.selected_words))
@@ -85,11 +84,14 @@ class ReferenceText:
         """
         return self.selected_chars
 
-    # HACK: threw this together to add a weighting system, not tested or
-    # implemented yet
-    def ensure_no_dupes(self, diff_level: str) -> str | None:
-        prev_word = None
-        candidate = random.choice(self.words[diff_level]) if self.words else ""
-        if candidate != prev_word:
-            prev_word = candidate
-            return candidate
+    def ensure_no_dupes(self, diff_level: str) -> str:
+        """
+        Prevents the same word from being added to the reference text
+        twice in a row. Expects to be called in a loop.
+        """
+        while True:
+            # have to include the else incase words JSON isn't found
+            candidate = random.choice(self.words[diff_level]) if self.words else ""
+            if candidate != self.prev_word:
+                self.prev_word = candidate
+                return candidate

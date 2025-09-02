@@ -5,22 +5,6 @@ from rich.text import Text
 from rich.console import Console
 
 
-# NOTE: Use this logic to implement a blinking cursor. Run the renderers
-# and input_handler in async so the rendering can refresh independent
-# of keystrokes
-def blink_cursor() -> bool:
-    """
-    Blinks the cursor twice a second.
-
-    `time.time` converted to int truncates the decimal value, when I
-    multiply by 2 before truncating the decimal value the value will get
-    to the next whole number twice as fast, meaning every half second
-    the value % 2 will = 0. Without multiplying by 2, it would flip to 0
-    every 1 second.
-    """
-    return int(time.time() * 2) % 2 == 0
-
-
 # TODO: Add async here for blinking cursor setting
 def render_typing_test(
     typed_text: list[str], reference_text: list[str], term: Terminal, console: Console
@@ -68,3 +52,19 @@ def render_timed_test(
 
     print(term.home + term.clear, end="")
     console.print(text)
+
+
+# NOTE: Use this logic to implement a blinking cursor. Run the renderers
+# and input_handler in async so the rendering can refresh independent
+# of keystrokes. Not implemented right now.
+def blink_cursor() -> bool:
+    """
+    Blinks the cursor twice a second.
+
+    `time.time` converted to int truncates the decimal value, when I
+    multiply by 2 before truncating the decimal value the value will get
+    to the next whole number twice as fast, meaning every half second
+    the value % 2 will = 0. Without multiplying by 2, it would flip to 0
+    every 1 second.
+    """
+    return int(time.time() * 2) % 2 == 0
