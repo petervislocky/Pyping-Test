@@ -3,10 +3,10 @@ import time
 from blessed import Terminal
 from rich.console import Console
 
-from reference_text import ReferenceText
-import renderer
 import input_handler
 import metrics
+import renderer
+from reference_text import ReferenceText
 
 
 # TODO: Add a live timer
@@ -69,12 +69,12 @@ def run_timed_mode(
     time_elapsed_seconds = time.time() - start_time
     time_elapsed_minutes = time_elapsed_seconds / 60
 
-    console.print(f"[bold green]Timed mode:[/] {int( time_elapsed_seconds )} seconds")
+    console.print(f"[bold green]Timed mode:[/] {int(time_elapsed_seconds)} seconds")
     console.print(
         f"[bold red]Words per minute:[/] {metrics.adjusted_wpm(len(typed_text), mistakes, time_elapsed_minutes):.2f} wpm"
     )
     console.print(
-        f"[bold medium_purple3]Raw words per minute:[/] {metrics.wpm(len(typed_text),time_elapsed_minutes):.2f} wpm"
+        f"[bold medium_purple3]Raw words per minute:[/] {metrics.wpm(len(typed_text), time_elapsed_minutes):.2f} wpm"
     )
     console.print(
         f"[bold blue]Accuracy:[/] "

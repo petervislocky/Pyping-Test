@@ -1,8 +1,8 @@
 import time
 
 from blessed import Terminal
-from rich.text import Text
 from rich.console import Console
+from rich.text import Text
 
 
 # TODO: Add async here for blinking cursor setting

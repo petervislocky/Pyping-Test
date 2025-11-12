@@ -3,9 +3,9 @@ import time
 from blessed import Terminal
 from rich.console import Console
 
-import renderer
 import input_handler
 import metrics
+import renderer
 
 
 def run_perfect_mode(

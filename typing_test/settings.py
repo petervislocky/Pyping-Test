@@ -1,10 +1,9 @@
-from pathlib import Path
-from typing import Any
-import subprocess
 import json
 import os
 import platform
-
+import subprocess
+from pathlib import Path
+from typing import Any
 
 DEFAULT_SETTINGS = {
     "word_count": 30,
@@ -52,7 +51,6 @@ def show_config_file() -> None:
 
 
 def check_settings_validity(settings: dict[str, Any]) -> None:
-
     class InvalidSettingsError(Exception):
         """Raises an exception when there are invalid settings in the
         config file"""
