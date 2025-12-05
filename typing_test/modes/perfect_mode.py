@@ -1,11 +1,10 @@
 import time
 
-from blessed import Terminal
-from rich.console import Console
-
-import renderer
 import input_handler
 import metrics
+import renderer
+from blessed import Terminal
+from rich.console import Console
 
 
 def run_perfect_mode(
@@ -53,7 +52,7 @@ def run_perfect_mode(
     time_elapsed_sec = end_time - start_time
     time_elapsed_min = time_elapsed_sec / 60
 
-    console.print(f"[bold green]Time to complete:[/] {int( time_elapsed_sec )} seconds")
+    console.print(f"[bold green]Time to complete:[/] {int(time_elapsed_sec)} seconds")
     console.print(
         f"[bold red]Words per minute:[/] {metrics.wpm(len(reference_text), time_elapsed_min):.2f} wpm (words per minute)"
     )

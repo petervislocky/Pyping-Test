@@ -1,12 +1,10 @@
 import argparse
 
-from blessed import Terminal
-from rich.console import Console
-
-from reference_text import ReferenceText
-from modes import timed_mode
-from modes import perfect_mode
 import settings
+from blessed import Terminal
+from modes import perfect_mode, timed_mode
+from reference_text import ReferenceText
+from rich.console import Console
 
 
 def parse_args() -> argparse.Namespace:
