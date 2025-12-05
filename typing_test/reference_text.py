@@ -6,7 +6,7 @@ from typing import Any
 def load_json(path: str) -> dict[str, Any] | None:
     """Helper method to load words in from JSON"""
     try:
-        with open(path, "r", encoding="utf-8") as file:
+        with open(path, encoding="utf-8") as file:
             return json.load(file)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"Error loading JSON: {e}")

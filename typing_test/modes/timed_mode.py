@@ -1,12 +1,11 @@
 import time
 
-from blessed import Terminal
-from rich.console import Console
-
 import input_handler
 import metrics
 import renderer
+from blessed import Terminal
 from reference_text import ReferenceText
+from rich.console import Console
 
 
 # TODO: Add a live timer

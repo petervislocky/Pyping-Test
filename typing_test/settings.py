@@ -60,7 +60,7 @@ def check_settings_validity(settings: dict[str, Any]) -> None:
     def word_count_validity(word_count: int) -> None:
         if not (5 <= word_count <= 300):
             raise InvalidSettingsError(
-                f"Config error: word_count length must be > 5 and > 300"
+                "Config error: word_count length must be > 5 and > 300"
             )
 
     def difficulty_validity(difficulty: str) -> None:
@@ -80,7 +80,7 @@ def check_settings_validity(settings: dict[str, Any]) -> None:
     def timer_validity(timer: int) -> None:
         if timer not in (15, 30, 60, 90, 120, 180):
             raise InvalidSettingsError(
-                f"Config error: valid time limits are 15, 30, 60, 90, 120, and 180 sec"
+                "Config error: valid time limits are 15, 30, 60, 90, 120, and 180 sec"
             )
 
     # Timer is not strictly necessary for the program to run unless you
